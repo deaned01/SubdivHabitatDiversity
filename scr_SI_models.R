@@ -19,10 +19,14 @@ fitcpar <- function(obs, area, sad, tota= 500000, low=0.00001, upp=20, c.start=1
   # Args:
   #    obs= vector of observed alpha diversity at the sampling area/s of interest
   #    area = vector of area/s corresponding to alpha diversity value/s
-  
+  #    tota= total study extent (defaults to 50 ha as for BCI; change if not true)
+  #    sad = global species abundance distribution (ie for tota) 
+  #    low, upp = parameter search range lower and upper bounds 
+  #    c.start = starting value for c to be passed to optimizer
+  #
   # Returns: 
-  #    Either a named list (if only one value estimated) or, dataframe with 2 columns: # 
-  #     cpar = estimate for c; fit = logical flag indicating convergence (0=fail, 1= converged)
+  #    Either a named list (if only one value estimated) or, dataframe with 2 columns: 
+  #    cpar = estimate for c; fit = logical flag indicating convergence (0=fail, 1= converged)
   
   if(length(area)!=length(obs)){
     cat("\n", "Args: obs and area must have equal length",
@@ -36,7 +40,7 @@ fitcpar <- function(obs, area, sad, tota= 500000, low=0.00001, upp=20, c.start=1
   for(i in 1:length(obs)){
     
     fit1 = tryCatch({
-      optim(fn = css.fnb, obs = obs[i], par = c(cpar = c.start),  a = area[i], A = tota, 
+      optim(fn = css.fnb, obs = obs[i], par = c(cpar = c.start),  area = area[i], tota = tota, 
             sad = sad, method="Brent", lower = low, upper = upp)
     }, warning = function(w) {
       w
@@ -55,7 +59,7 @@ fitcpar <- function(obs, area, sad, tota= 500000, low=0.00001, upp=20, c.start=1
 }
 
 # css.fnb ####
-css.fnb <- function(obs, pars, a, A, sad){
+css.fnb <- function(obs, pars, area, tota=500000, sad){
   # calculate alpha div using fnb fit to mean alpha
   # to be used with numerical optimizer (eg optim() ) see- fitcpar()
   # Arguments:
@@ -66,7 +70,7 @@ css.fnb <- function(obs, pars, a, A, sad){
   if(is.list(obs)) obs <- unlist(obs)
   m = length(obs)
   
-  alpha <- a/A
+  alpha <- area/tota
   pr.sar <- numeric()
   
   for(i in 1:length(N)){
@@ -85,17 +89,14 @@ css.fnb <- function(obs, pars, a, A, sad){
   return(dif)
 }
 
-
-
-
-fnbSSfit <- function(N, cpar, a, A, m){
+fnbSSfit <- function(sad, cpar, area, tota=500000, m){
   require(Rmpfr)
   # Fn calculates shared species (zeta diversity) in m samples, of area a
   
   # Arguments:
-  # N = vector of abundances (ie SAD over study extent) 
-  # a =  subarea of interest
-  # A = total area
+  # sad = vector of abundances (ie SAD over study extent) 
+  # area =  subarea of interest
+  # tota = total area
   # cpar = c parameter for that grain fit to mean alpha (from fitcpar)
   # m = number of samples of interest for shared count
   
@@ -103,7 +104,8 @@ fnbSSfit <- function(N, cpar, a, A, m){
   # vector of shared species of length m
   
   pr.sar <- numeric()
-  alpha = a/A
+  alpha = area/tota
+  N = sad
   
   for(i in 1:length(N)){
     pr.sar[i] <- 1 - as.numeric((gamma(as(N[i]*(1+ 1/cpar - alpha/cpar),"mpfr"))*
@@ -122,35 +124,38 @@ fnbSSfit <- function(N, cpar, a, A, m){
   return(out)
 }
 
-
-fitspacc <- function(obs, a, sad, area=500000, lowlim =1/100, uplim = 10, plotres = FALSE){
+fitspacc <- function(obs=NULL, area, sad, tota=500000, cpar, m, plotres = FALSE){#low =1/100, upp = 20){
+  
   # Fn to fit and compare a species accumulation curve to observed data 
   # Uses alpha diversity to fit
   
   # Args: 
-  # obs =  spp acc curve data
-  # a = sample area in m2 
-  # area = study extent area (assumes 50ha)
+  # obs =  spp acc curve data 
+  # area = sample area in m2 
+  # tota = study extent area (assumes 50ha)
   # sad = global sad
-  # lowlim = lower parameter search range
-  # uplim = upper value for parameter search range
+  # cpar = fitted c-parameter from fitcpar
+  # m = number of samples 
   # plotres= logical flag = 1 for a plot of the observed and fitted
   
   # Returns: 
   # sacm = vector of species accumulated
   
   # Requires:
-  # fitcpar(); fnbSSfit()
+  # fnbSSfit()
   
-  reps <- length(obs)
+  if(plotres & is.null(obs)){
+    cat("\n", "Need observed data to plot results",
+        "\n")
+    }
+  
+  reps <- m 
   sacm <- numeric()
   obs <- unlist(obs)
-  sr <- sacm[1] <- obs[1]
   
-  cpar <- fitcpar(obs= sr, area = grain, qreps = 1, sad = bsad, low = lowlim, upp = uplim)$cpar
-  
-  ssv <- fnbSSfit(N= sad, cpar = cpar, a = a, A = 500000, m = reps)
+  ssv <- fnbSSfit(sad = sad, cpar = cpar, area = area, tota = 500000, m = reps)
   modss <- unlist(ssv)
+  sacm[1] <- modss[1]
   for(i in 2:reps){
     sse <- modss[1:i]
     len <- length(sse)
@@ -161,11 +166,12 @@ fitspacc <- function(obs, a, sad, area=500000, lowlim =1/100, uplim = 10, plotre
   if(plotres) plot(1:reps,sacm); points(1:reps, obs,col=2)
   return(sacm)}
 
-
 spefun <- function(x){
-  # Fn to calculate number of single-patch endemic species 
+  # Fn to calculate number of single-patch endemic species from expected shared spp 
+  
   # Args: 
-  # x is a list of shared species from 1-to-'m' sites at different grains and or reps 
+  # x is a list of MODELLED (not observed) shared species from 1-to-'m' sites 
+  # Handles a list at different grains and or reps 
   
   spe <- numeric()
   for(i in 1:length(x)){
@@ -186,10 +192,6 @@ spefun <- function(x){
   }
   return(spe)
 }
-
-
-
-
 
 
 fnbSPEfit <- function(N, cpar, a, A, m){

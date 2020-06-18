@@ -33,7 +33,7 @@ qr.sample <- function (data, nquad, size, overlap = F, giveup = 20000)   {
   ylo = quadrat.xy$y - size/2
   yup = quadrat.xy$y + size/2
   
-  trees <- data.frame(x = data$x, y = data$y, spcode=data$spcode)
+  trees <- data.frame(x = data$gx, y = data$gy, spcode=data$spcode)
   
   # specify holder matrix dimensions
   nspp <- length(unique(trees$spcode))
@@ -61,8 +61,8 @@ qr.sample <- function (data, nquad, size, overlap = F, giveup = 20000)   {
 quadrat.count.main <- function (data, nquad, size, overlap = F, giveup = 200) 
   {
   npt = numeric()
-  x = data$x
-  y = data$y
+  x = data$gx
+  y = data$gy
   minx = min(x)
   maxx = max(x)
   miny = min(y)
