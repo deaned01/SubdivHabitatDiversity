@@ -88,7 +88,7 @@ lines(1:20, calstats$zeta[,3], lty= 2)
 points(1:20, zeta.est)  
 legend(15,50,legend=c("Predicted","Observed"),pch=c(1,NA),lty=c(NA,1))  
 ```
-
+![zeta01.png](/zeta01.png)  
 Not perfect, but it’s an approximate model. Let’s see how it does for the diversity metrics.  
 
 First total species richness of the samples:
@@ -142,6 +142,8 @@ points(1:20, zeta.est)
 points(1:20, zeta.est.fnb, col=2, pch=2)
 legend(12,50,legend=c("Predicted NB","Predicted FNB", "Observed"),pch=c(1,2, NA),lty=c(NA,NA, 1), col=c(1,2,1))
 ```
+![zeta02.png](/zeta02.png)   
+
 
 Dave Deane, Nov 2021
 d.deane@latrobe.edu.au
