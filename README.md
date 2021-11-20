@@ -1,5 +1,6 @@
 ## SubdivHabitatDiversity
-This is a quick introduction to the models presented in “A null model for quantifying the geometric effect of habitat subdivision on species diversity”.  
+
+This is a breif introduction to the models presented in “A null model for quantifying the geometric effect of habitat subdivision on species diversity”.  [![DOI](https://zenodo.org/badge/272613576.svg)](https://zenodo.org/badge/latestdoi/272613576)
 
 The R code used in the paper are in file ‘functions.R’ and the aim here is to illustrate their use. The R-code provides a brief explanation of the arguments as well.  
 
