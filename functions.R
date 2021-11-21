@@ -8,7 +8,7 @@
 # to deal with the large combinatorial calcs - numerical differences are trivial)
 
 # 1. negative binomial 
-fitSS.NB <- function(area, sad, cpar, m, tota = 500000){
+predSS.NB <- function(area, sad, cpar, m, tota = 500000){
   # to fit modelled SS with known cpar (par) and SAD
   
   # Arguments:
@@ -28,7 +28,7 @@ fitSS.NB <- function(area, sad, cpar, m, tota = 500000){
   
   pr.spp <- numeric()
   for(i in 1:S0){
-    pr.spp[i] <-  (1 - (1 - pr.area)*(1 + sad[i]*pr.area/kvec[i])^-kvec[i])
+    pr.spp[i] <-  (1 - (1 - pr.area)*(1 + cpar)^-kvec[i])
   }
   
   ssp <- numeric()
@@ -41,7 +41,7 @@ fitSS.NB <- function(area, sad, cpar, m, tota = 500000){
 # 2. Finite negative binomial
 # note this can be slow and the improvement in accuracy is unlikely to be worth the wait...
 # note too requires package Rmpfr to deal with the large numbers in the gamma function... 
-fitSS.FNB <- function(sad, cpar, area, tota=500000, m){
+predSS.FNB <- function(sad, cpar, area, tota=500000, m){
   require(Rmpfr)
   # sad = vector of abundances (ie SAD over study extent) 
   # area =  subarea of interest
@@ -58,10 +58,10 @@ fitSS.FNB <- function(sad, cpar, area, tota=500000, m){
   
   pr.spp <- c()
   for(i in 1:length(sad)){
-    pr.spp[i] <- 1 - as.numeric((gamma(as(sad[i]+ k[i]/pr.area - k[i],"mpfr"))*
-                                   gamma(as(k[i]/pr.area,"mpfr")))/
-                                  (gamma(as(sad[i]+k[i]/pr.area,"mpfr"))*gamma(as(k[i]/pr.area - k[i],"mpfr"))))
-  }
+    pr.spp[i] <- 1 - as.numeric((gamma(as(sad[i]*(1+ 1/cpar - pr.area/cpar),"mpfr"))*
+                                   gamma(as(sad[i]/cpar,"mpfr")))/
+                                  (gamma(as(sad[i]*(1+ 1/cpar),"mpfr"))*
+                                     gamma(as(sad[i]/cpar*(1- pr.area),"mpfr"))))  }
   
   ssp <- c()
   for(j in 1:m){
@@ -75,7 +75,7 @@ fitSS.FNB <- function(sad, cpar, area, tota=500000, m){
 
 # 3. random placement
 
-fitss.RP <- function(area, tota = 500000, m, sad){
+predss.RP <- function(area, tota = 500000, m, sad){
   # a is area of interest
   # A is total study extent for SAD (default value is for 50 ha in metres)
   # returns vector of species shared in 1:m samples
@@ -138,9 +138,9 @@ spe.fn <- function(x){
 #***************************************************************************************************************
 # Validation functions ####
 # To test model predictions against actual data, e.g., from a stem-mapped forest
-# 1. negative binomial
+# 1. negative binomial ####
 
-fit.c.NB <- function(obs, area, sad, tota= 500000, low=0, upp=100){
+fitc.NB <- function(obs, area, sad, tota= 500000, low=0, upp=100){
   # function to fit the 1-parameter fnb shared species model to a list of observed data
   # basically a wrapper for cparls (see below)
   
@@ -195,7 +195,7 @@ cdif.NB <- function(area, sad, par, obs, tota = 500000){
   
   kvec <- sad*pr.area/cpar
   for(i in 1:S0){ 
-    calc[i] <-  (1 - (1-pr.area)*(1 + cpar)^-kvec[i])}
+    calc[i] <-  (1 - (1 - pr.area)*(1 + cpar)^-kvec[i])}
   
   srsim <- sum(calc) 
   dif <- (srsim - obs)
@@ -203,8 +203,8 @@ cdif.NB <- function(area, sad, par, obs, tota = 500000){
   return(abs(dif))
 } 
 
-# 2. finite NB ####
-fit.c.fnb <- function(obs, area, sad, tota= 500000, low=-100, upp=100){
+# 2. FNB ####
+fitc.FNB <- function(obs, area, sad, tota= 500000, low=-100, upp=100){
   # function to fit the 1-parameter fnb shared species model to a list of observed data
   # basically a wrapper for css.fnb (see below)
   
@@ -260,4 +260,33 @@ cdif.fnb <- function(obs, pars, area, tota = 500000, sad){
   
   return(dif)
 }
+
+# species probs (sums gives # spp) 
+prob.fnb <- function(N, cpar, a, A = 500000){
+  require(Rmpfr)
+  # N = vector of abundances (ie SAD over study extent, A) 
+  # cpar = c parameter for FNBD model (=1/k)
+  # a = area of habitat/sample in same units as A, study extent
+  # A = total study extent - default is set to 50 ha
+  
+  # Returns:
+  # vector of probabilities for each species being present in area a 
+  #
+  # Sum probs to obtain number of species
+  # Raise to mth power and sum to obtain number shared in m samples of size a
+  
+  pr.sar <- c()
+  alpha <- a/A
+  k <- (alpha*N)/cpar
+  for(i in 1:length(N)){
+    pr.sar[i] <- 1 - as.numeric((gamma(as(N[i]+k[i]/alpha-k[i],"mpfr"))*
+                                   gamma(as(k[i]/alpha,"mpfr")))/
+                                  (gamma(as(N[i]+k[i]/alpha,"mpfr"))*gamma(as(k[i]/alpha-k[i],"mpfr"))))}
+  
+  return(pr.sar)
+}
+
+prob.rp <- function(a, tota = 500000, sad){ 
+  rpmod <- (1-(1-a/tota)^sad)
+  return(rpmod)}
 
