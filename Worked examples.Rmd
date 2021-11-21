@@ -165,5 +165,41 @@ legend(12,50,legend=c("Predicted NB","Predicted FNB", "Observed"),pch=c(1,2, NA)
 plot(zeta.est, zeta.est.fnb);abline(0,1)
 ```
 
+### Calculate the scaling relationship
+To fit a scaling relationship to a stem-mapped plot (or similar), just need the SAD for the plot and a bunch of species richness estimates at different grain sizes. There are data from BCI with this information in the object 'validationSamples_FNB.RData'.
+
+```{r}
+source("functions.R")
+load("BCI_SAD.RData")
+load("validationSamples_FNB.RData")
+names(val.sampsFNB[[1]])
+```
+We'll need quadrat areas (qarea) observed mean richness for that grain (srobs). Plus, we can compare the fitted c parameter with the original estimate (cest) using the finite NB. It should be close, but won't be the same! The same code could be run with the FNB model but it will take a while to run...
+
+
+```{r}
+x<- val.sampsFNB[[1]] # bci samples
+cp <- numeric()
+for(i in 1:nrow(x)){
+  area = x$qarea[i] # quadrat area (grain size)
+  obs = x$srobs[i] # mean richness at this grain
+  cp[i] <- fitc.NB(obs = obs, area = area, sad = bciSAD, tota = 5e+05, low = 0, upp = 100)$cpar
+  print(c(cp[i], x$cest[i])) # compare with original model
+}
+
+```
+Now we have the list of areas and the value of the scaling parameter. We just need to fit a power function.
+
+```{r}
+avec <- x$qarea/x$qarea[4] # use 400 m as base level and convert grain to relative grain
+k0 <- cp[4] # fitted scaling parameter
+y <- cp 
+nly <- nls(y ~ k0*avec^z, start=list(z=0.2))
+pry <- predict(nly)
+with(x, plot(qarea, cp))
+lines(x$qarea, pry)
+```
+
+
 ## Reference
 Hui, C. and McGeoch, M. (2014) Zeta diversity as a concept and metric that unifies incidence-based biodiversity patterns American Naturalist 2014 Vol. 184 Issue 5 Pages 684-694
