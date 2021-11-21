@@ -1,10 +1,10 @@
 ## SubdivHabitatDiversity
 
-This is a breif introduction to the models presented in “A null model for quantifying the geometric effect of habitat subdivision on species diversity”.  [![DOI](https://zenodo.org/badge/272613576.svg)](https://zenodo.org/badge/latestdoi/272613576)
+This is a brief introduction and data repo for the models presented in “A null model for quantifying the geometric effect of habitat subdivision on species diversity”.  [![DOI](https://zenodo.org/badge/272613576.svg)](https://zenodo.org/badge/latestdoi/272613576)
 
-The R code used in the paper are in file ‘functions.R’ and the aim here is to illustrate their use. The R-code provides a brief explanation of the arguments as well.  
+The R code used in the paper to fit the models and calculate the diversity metrics are in file ‘functions.R’ and the aim here is to illustrate their use. The R-code provides a brief explanation of the arguments as well. There's also a script to recreate Fig. 5 from the main text (scr_simsSubDiv.R).    
 
-Basically there are two parts to the paper, a validation against empirical data and a theoretical exploration of the implications. I’ll give an example in the reverse order here.
+Basically there are two parts to the paper, a validation against empirical data and a theoretical exploration of the implications. I’ll give an example in the reverse order and introduce some of the other data and code in the repo as I go.  
 
 ### Estimating diversity
 First we need some data - if we assume a value for the community scaling parameter, we only need the species abundance distribution (SAD). 
@@ -12,9 +12,19 @@ Here I’ve used data from BCI - that is the Barro Colorado Island forest dynami
 ```
 load('BCI_SAD.RData')
 ```
-Of course, the SAD could be simulated assuming any number of different abundance distributions…
+Of course, the SAD could be simulated assuming any number of different abundance distributions and conspecific spatial patterns… the file 'validationPlots.RData' contains the simulated landscapes used in the paper. There were 8 of these including the empirical data: 
+ - "bAgg035" - this is a more aggregated than empirical data using the BCI SAD and sigma = 35 for the Thomas process
+ - "bAgg050" - this is less aggregated than empirical data and again uses BCI SAD but sigma = 50 
+ - "bRP" - random placement using BCI SAD
+ - "bReg010" - regular placement simulated using the Strass process
+ - "bci" - the empirical data (see below)
+ - "bstrees" - the simulated plot using the same number of spp and individuals as the BCI data but distributed as a broken stick. Sigma = 50 here (to compare with bAgg050)
+ - "lntrees" - as above, lognormal SAD
+ - "lstrees" - as above, log series SAD
 
-The models are all in ‘functions.R’.
+The relevant samples (e.g., mean species richness, gamma, etc), along with the corresponding model prediction from each simulated and empirical plot are in 'validationSamples_XXX.RData' and use the same naming convention.  
+
+The models and the zeta diversity functions used are all in ‘functions.R’.
 ```
 source("functions.R")
 args(fitSS.NB)
@@ -46,8 +56,10 @@ spe.fn(z20)
 There's also bd.fn() for Sorensen dissimilarity.  
 
 ### Comparing observed and predicted
+We used both models in validation and the samples and fitted values we obtained are in the .RData objects 'validationSamples_NB' and 'validationSamples_FNB' for the negative and finite negative models respectively.  
+
 1. negative binomial
-For comparison with empirical data I’ve included some collated samples from the BCI 2005 census data.  
+To illustrate comparison with empirical data I’ve included some collated samples from the BCI 2005 census data.  
 
 The object ‘calstats’ contains values calculated from 100 repeat samples of 20 randomly positioned 20 x 20 m quadrats.  
 ```
