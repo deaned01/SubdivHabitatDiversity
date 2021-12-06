@@ -2,7 +2,7 @@
 
 This is a brief introduction and data repo for the models presented in “A null model for quantifying the geometric effect of habitat subdivision on species diversity”.  [![DOI](https://zenodo.org/badge/272613576.svg)](https://zenodo.org/badge/latestdoi/272613576)
 
-The R code used in the paper to fit the models and calculate the diversity metrics are in file ‘functions.R’ and the aim here is to illustrate their use. The R-code provides a brief explanation of the arguments as well. There's also a script to recreate Fig. 5 from the main text (scr_simsSubDiv.R).    
+The R code used in the paper to fit the models and calculate the diversity metrics are in file ‘functions.R’ and the aim here is to illustrate their use. The R-code provides a brief explanation of the arguments as well. There's also a script to recreate Fig. 5 from the main text (scr_simsSubDiv.R).   
 
 Basically there are two parts to the paper, a validation against empirical data and a theoretical exploration of the implications. I’ll give an example in the reverse order and introduce some of the other data and code in the repo as I go.  
 
@@ -27,7 +27,7 @@ The relevant samples (e.g., mean species richness, gamma, etc), along with the c
 The models and the zeta diversity functions used are all in ‘functions.R’.
 ```
 source("functions.R")
-args(fitSS.NB)
+args(predSS.NB)
 function (area, sad, cpar, m, tota = 5e+05) 
 ```
 The arguments are common to the functions and represent:
@@ -40,7 +40,7 @@ To predict the diversity of a set of samples from we first calculate zeta divers
 
 Zeta can be calculated using the negative binomial or finite NB versions. This is the neg bin:  
 ```
-z20 <- fitSS.NB(area=200, sad=bciSAD, cpar = 0.88, m = 20)  
+z20 <- predSS.NB(area=200, sad=bciSAD, cpar = 0.88, m = 20)  
 ```
 
 Then once you have zeta, can calculate the total number of species (akin to gamma diversity) using gam.fn()    
@@ -84,13 +84,13 @@ alpha.div = calstats$zeta[1,1];alpha.div # mean number of spp shared in 1 sample
 
 Once we have the estimated mean alpha diversity for our samples, we can use function fit.c.NB() to estimate the parameter. (NB: If you want to get a scaling relationship for c, repeat the sampling and fitting steps at a few sampling grains, then fit Eq 8 in the main text).  
 ```
-cpar.fit <- fit.c.NB(obs = alpha.div, area = 400, sad = bciSAD, tota= 500000, low=0, upp=100)  
+cpar.fit <- fitc.NB(obs = alpha.div, area = 400, sad = bciSAD, tota= 500000, low=0, upp=100)  
 
 cpar.fit$cpar [1] 1.038374
 ```
 This is the value for the community scaling parameter, c, at this sampling grain. Now we just plug it into fitSS.NB() to estimate zeta diversity in the 20 samples…
 ```
-zeta.est <- fitSS.NB(area = 400, sad = bciSAD, cpar = cpar.fit$cpar, m = 20, tota = 500000); zeta.est  
+zeta.est <- predSS.NB(area = 400, sad = bciSAD, cpar = cpar.fit$cpar, m = 20, tota = 500000); zeta.est  
 ```
 
 To compare with the empirical data:  
@@ -133,17 +133,16 @@ unlist(calstats$beta)
 ```
 2. Finite negative binomial  
 For completeness, here’s the fitting for the FNB model. It takes a long time and does not seem to provide an improvement that warrants this in my view.  
-
-Of course, I’m pretty agricultural in my R skills, so I’m sure others much smarter than I will be able to work out a means to speed this up a whole lot…
+I’m sure others will be able to work out a means to speed this up a whole lot…
 
 To fit c as with the neg bin:  
 ```
-fnb.c <- fit.c.fnb(obs = alpha.div, area =400, sad = bciSAD, tota= 500000, low=0, upp=10)$cpar
+fnb.c <- fitc.FNB(obs = alpha.div, area =400, sad = bciSAD, tota= 500000, low=0, upp=10)$cpar
 [1] 1.021112  
 ```
 And predict zeta using the FNB:     
 ```
-zeta.est.fnb <- fitSS.FNB(sad = bciSAD, cpar = fnb.c, area = 400, tota = 500000, m = 20)  
+zeta.est.fnb <- predSS.FNB(sad = bciSAD, cpar = fnb.c, area = 400, tota = 500000, m = 20)  
 ```
 How do the FNB and NB shared species estimates compare?
 
