@@ -151,7 +151,7 @@ fitc.NB <- function(obs, area, sad, tota= 500000, low=0, upp=100){
   # tota: extent over which sad is calculated
   # low, upp = limits over which to search for c - you will need to adjust to allow negative values 
   # to fit to regular distributions - I find this can be a bit prickly, so several different values might be 
-  # necessary to get a fit.
+  # necessary to get a fit, try a range like: low = 1/-1.001, upp= 1/-20
   
   #est <- numeric() # fit1 is a logical flag to indicate convergence 
     fit1 = tryCatch({

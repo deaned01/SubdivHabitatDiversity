@@ -1,4 +1,4 @@
-# code to run the SLOSS type simulation (Fig. 5 main text)
+# code to run the SLOSS type simulation (Fig. 5 main text) 
 load("validationPlots.RData")
 source("functions.R")
 
@@ -24,16 +24,16 @@ sadbs <- unlist(table(bstrees$spcode))
 sadln <-unlist(table(lntrees$spcode))
 sadls <-unlist(table(lstrees$spcode))
 
-# bust it up into different amounts of subdiv
+# break up into different amounts of subdiv
 # prepare scenarios ####
 tota <- 1000*500 # i.e., 50 ha
 
+# remaining areas and number of fragments
 rem.frac <- seq(from=0.5, to = 0.1, by=-0.1) 
 rem.area <- tota*rem.frac
-
-# prepare data holders 
 nfrag <- c(1, 2, 4, 8, 16, 32)
 
+# prepare data holder 
 mat <- matrix(NA, nrow= length(nfrag), ncol=length(rem.area))
 colnames(mat) <- rem.frac
 rownames(mat) <- nfrag
@@ -46,9 +46,9 @@ for(i in 1:length(nfrag)){
 # predict the c parameter from the scaling relationships
 scens <- data.frame(area = mat[,4])
 scens$m <- rownames(mat)
-scens$apr <- scens$area/400
+scens$apr <- scens$area/400 
 scens$cEmp <- 1.06*scens$apr^0.28 # slightly different to the samples used for validation
-scens$cAgh <- 0.157*scens$apr^0.778 # 035 fitted equation as per empirical (Eq 8 main text)
+scens$cAgh <- 0.157*scens$apr^0.778 # aggregated scenario sigma = 35 m, fitted equation as per empirical (Eq 8 main text)
 scens$cReg <-   seq(from = 1/-1.001, to = 1/-19.999, length.out=6) # regular is approximate b/c power law is not a great fit...
 
 # processing fns ###
@@ -118,9 +118,12 @@ rg.spe <- reg10$spe[2:6]/reg10$gam[2:6]
 
 # relative change calcs 
 (emp10$gam[6]-emp10$gam[5])/emp10$gam[1]  # 32 vs 16 patches 
+# [1] 0.006071342
 (emp10$gam[3]-emp10$gam[2])/(emp10$gam[6]-emp10$gam[5]) # 4 vs 2 patches
+# [1] 1.040325
+
 divs <- c(2,4,8,16,32)
-sups <-  agh10$gam[2:6]-agh10$gam[1:5] # one subdiv change
+sups <-  agh10$gam[2:6]-agh10$gam[1:5] # difference in species richness, for one more subdiv
 # 6.964250 6.111420 4.977772 3.804188 2.730707
 plot(divs, sups) 
 

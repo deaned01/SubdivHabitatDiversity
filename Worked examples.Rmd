@@ -19,7 +19,7 @@ The models are all in 'functions.R'.
 
 ```{r}
 source("functions.R")
-args(fitSS.NB)
+args(predSS.NB)
 ```
 The arguments are common to the functions and represent:  
 --area = sampling grain - in the same units as tota.  
@@ -30,7 +30,7 @@ The arguments are common to the functions and represent:
 To predict the diversity of a set of samples from we first calculate zeta diversity and then plug it into the formula derived in Hui & McGeoch (2014). 
 
 ```{r}
-z20 <- fitSS.NB(area=200, sad=bciSAD, cpar = 0.88, m = 20)
+z20 <- predSS.NB(area=200, sad=bciSAD, cpar = 0.88, m = 20)
 z20
 ```
 
@@ -55,11 +55,11 @@ So we can compare the species in, say 20 20 x 20 m quadrats with those in 1 x 80
 c.sl = 1.06*(8000/400)^0.28  # single large = 1 x 8000 m2
 c.ss = 1.06*(800/400)^0.28  # several small = 10 x 800 m2
 
-sr.sl <- fitSS.NB(area=8000, sad=bciSAD, cpar = c.sl, m=1)
-sr.ss <- gam.fn(fitSS.NB(area=800, sad=bciSAD, cpar = c.ms, m=10))
+sr.sl <- predSS.NB(area=8000, sad=bciSAD, cpar = c.sl, m=1)
+sr.ss <- gam.fn(predSS.NB(area=800, sad=bciSAD, cpar = c.ss, m=10))
 sr.ss; sr.sl
 ```
-So an 8% increase in richness is expected if the single patch was subdivided into 10 independent patches. 
+So ~6% increase in richness is expected if the single patch was subdivided into 10 independent patches. 
 
 # Comparing observed and predicted
 ## 1. negative binomial
@@ -87,13 +87,13 @@ alpha.div = calstats$zeta[1,1];alpha.div # mean number of spp shared in 1 sample
 Once we have this, we can use function fit.c.NB() to estimate the parameter. (NB: If you want to get a scaling relationship for c, repeat the sampling and fitting steps at a few sampling grains, then fit Eq 8 in the main text).
 
 ```{r}
-cpar.fit <- fit.c.NB(obs = alpha.div, area = 400, sad = bciSAD, tota= 500000, low=0, upp=100)
+cpar.fit <- fitc.NB(obs = alpha.div, area = 400, sad = bciSAD, tota= 500000, low=0, upp=100)
 cpar.fit$cpar
 ```
 This is the value for the community scaling parameter, c, at this sampling grain. Now we just plug it into fitSS.NB() to estimate zeta diversity in the 20 samples... 
 
 ```{r}
-zeta.est <- fitSS.NB(area = 400, sad = bciSAD, cpar = cpar.fit$cpar, m = 20, tota = 500000)
+zeta.est <- predSS.NB(area = 400, sad = bciSAD, cpar = cpar.fit$cpar, m = 20, tota = 500000)
 zeta.est
 
 
@@ -132,20 +132,20 @@ bd.fn(zeta.est)
 unlist(calstats$beta)
 (0.4755007-0.4936184)/0.4936184 
 ```
-One of the features of the null models when compared with real data is that the diversity measures calculated from zeta components tend to be much closer to the empirical values, here all less than 5% from the empirical estimate. This seems to remain true, even when the zeta components themselves fell outside the 95% empirical sampling limits (the regularly distributed community in the SI is a good example).
+One of the things about the null models when compared with real data is that the diversity measures calculated from zeta components tend to be much closer to the empirical values, here all less than 5% from the empirical estimate. This seems to remain true, even when the zeta components themselves fell outside the 95% empirical sampling limits (the regularly distributed community in the SI is a good example).
 
 ## 2. Finite negative binomial
 For completeness, here's the fitting for the FNB model. It takes a long time and does not seem to provide an improvement that warrants this in my view. 
 
-Of course, I'm pretty agricultural in my R skills, so I'm sure others much smarter than I will be able to work out a means to speed this up a whole lot...
+I'm pretty agricultural in my R skills, so I'm sure others will be able to work out a means to speed this up...
 
 ```{r}
 # fit c as with the neg bin
-fnb.c <- fit.c.fnb(obs = alpha.div, area =400, sad = bciSAD, tota= 500000, low=0, upp=10)$cpar
+fnb.c <- fitc.FNB(obs = alpha.div, area =400, sad = bciSAD, tota= 500000, low=0, upp=10)$cpar
 fnb.c
 
 # and predict
-zeta.est.fnb <- fitSS.FNB(sad = bciSAD, cpar = fnb.c, area = 400, tota = 500000, m = 20)
+zeta.est.fnb <- predSS.FNB(sad = bciSAD, cpar = fnb.c, area = 400, tota = 500000, m = 20)
 zeta.est.fnb
 ```
 
@@ -174,7 +174,7 @@ load("BCI_SAD.RData")
 load("validationSamples_FNB.RData")
 names(val.sampsFNB[[1]])
 ```
-We'll need quadrat areas (qarea) observed mean richness for that grain (srobs). Plus, we can compare the fitted c parameter with the original estimate (cest) using the finite NB. It should be close, but won't be the same! The same code could be run with the FNB model but it will take a while to run...
+We'll need quadrat areas (qarea) observed mean richness for that grain (srobs). Plus, we can compare the fitted c parameter with the original estimate (cest) using the finite N (it will be close, but it won't be the same). The same code could be run with the FNB model but it will take a while to run...
 
 
 ```{r}
@@ -199,7 +199,7 @@ pry <- predict(nly)
 with(x, plot(qarea, cp))
 lines(x$qarea, pry)
 ```
-
+Once we have this relationship, we can explore subdivision of area by adjusting c to the correct grain (as was done in Fig. 5 - see scr_simsSubDiv.R for that code). 
 
 ## Reference
 Hui, C. and McGeoch, M. (2014) Zeta diversity as a concept and metric that unifies incidence-based biodiversity patterns American Naturalist 2014 Vol. 184 Issue 5 Pages 684-694
