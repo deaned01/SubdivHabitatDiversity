@@ -1,6 +1,7 @@
 ## SubdivHabitatDiversity
 
-This is a brief introduction and data repo for the models presented in “A null model for quantifying the geometric effect of habitat subdivision on species diversity”.  [![DOI](https://zenodo.org/badge/272613576.svg)](https://zenodo.org/badge/latestdoi/272613576)
+This is a brief introduction and data repo for the models presented in “A null model for quantifying the geometric effect of habitat subdivision on species diversity”. [![DOI](https://zenodo.org/badge/272613576.svg)](https://zenodo.org/badge/latestdoi/272613576)
+
 
 The R code used in the paper to fit the models and calculate the diversity metrics are in file ‘functions.R’ and the aim here is to illustrate their use. The R-code provides a brief explanation of the arguments as well. There's also a script to recreate Fig. 5 from the main text (scr_simsSubDiv.R).   
 
