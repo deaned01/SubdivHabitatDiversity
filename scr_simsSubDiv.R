@@ -198,7 +198,6 @@ labs3$type <- factor(labs3$type, levels = c("agg","sad"), labels=c("Vary spatial
 pldat$leg <- as.factor(paste(pldat$type, pldat$sim))
 
 levels(as.factor(pldat$leg))
-library(ggplot2)
 
 comfig <- ggplot( data = pldat, aes(x = m, y = div))+
   theme_minimal()+

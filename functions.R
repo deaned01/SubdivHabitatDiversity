@@ -265,7 +265,7 @@ cdif.fnb <- function(obs, pars, area, tota = 500000, sad){
 prob.fnb <- function(N, cpar, a, A = 500000){
   require(Rmpfr)
   # N = vector of abundances (ie SAD over study extent, A) 
-  # cpar = c parameter for FNBD model (=1/k)
+  # cpar = c parameter for FNBD model
   # a = area of habitat/sample in same units as A, study extent
   # A = total study extent - default is set to 50 ha
   

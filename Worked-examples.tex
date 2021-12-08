@@ -1,0 +1,639 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\title{Worked examples}
+\author{}
+\date{\vspace{-2.5em}}
+
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={Worked examples},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+
+\begin{document}
+\maketitle
+
+This is a quick introduction to the models presented in ``A null model
+for quantifying the geometric effect of habitat subdivision on species
+diversity''. The R code used in the paper are in file `functions.R' and
+the aim here is to illustrate their use. The R-code provides a brief
+explanation of the arguments so I don't go into that too much.
+
+Basically there are two parts to the paper, a validation against
+empirical data and a theoretical exploration of the implications. I'll
+give an example in the reverse order here.
+
+\hypertarget{estimating-diversity}{%
+\subsection{Estimating diversity}\label{estimating-diversity}}
+
+First we need some data - if we assume a value for the community scaling
+parameter, we only need the species abundance distribution (SAD). Here
+I've used data from BCI - that is the
+\href{https://repository.si.edu/handle/10088/20925}{Barro Colorado
+Island} forest dynamics plot. I use the 2005 census, with 211845 living
+stems and 301 species.
+
+Of course, the SAD could be simulated assuming any number of different
+abundance distributions\ldots{}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{load}\NormalTok{(}\StringTok{\textquotesingle{}BCI\_SAD.RData\textquotesingle{}}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+The models are all in `functions.R'.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{source}\NormalTok{(}\StringTok{"functions.R"}\NormalTok{)}
+\FunctionTok{args}\NormalTok{(predSS.NB)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## function (area, sad, cpar, m, tota = 5e+05) 
+## NULL
+\end{verbatim}
+
+The arguments are common to the functions and represent:\\
+--area = sampling grain - in the same units as tota.\\
+--sad = species abundance distribution over the study extent\\
+--cpar = community level scaling parameter at sampling grain `area'\\
+--tota = extent over which the number of individuals in the species
+abundance distribution were counted (defaults to 50 ha)
+
+To predict the diversity of a set of samples from we first calculate
+zeta diversity and then plug it into the formula derived in Hui \&
+McGeoch (2014).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{z20 }\OtherTok{\textless{}{-}} \FunctionTok{predSS.NB}\NormalTok{(}\AttributeTok{area=}\DecValTok{200}\NormalTok{, }\AttributeTok{sad=}\NormalTok{bciSAD, }\AttributeTok{cpar =} \FloatTok{0.88}\NormalTok{, }\AttributeTok{m =} \DecValTok{20}\NormalTok{)}
+\NormalTok{z20}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##  [1] 32.328150 14.259605  9.413038  7.359025  6.256913  5.568578  5.091642
+##  [8]  4.736522  4.458420  4.232628  4.044371  3.884204  3.745752  3.624516
+## [15]  3.517213  3.421376  3.335106  3.256920  3.185635  3.120300
+\end{verbatim}
+
+We can calculate the total number of species (which is a kind of gamma
+diversity)
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{gam.fn}\NormalTok{(z20)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 141.8386
+\end{verbatim}
+
+Or the number of species in only a single one of those 20 patches
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{spe.fn}\NormalTok{(z20)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 45.9334
+\end{verbatim}
+
+\hypertarget{exploring-the-sloss-question}{%
+\subsection{Exploring the SLOSS
+question}\label{exploring-the-sloss-question}}
+
+So, if we are interested in the relative number of species in one large
+patch for increasing subdivision (noting all the model caveats about
+independence and distance decay described in the paper) all we need is a
+scaling relationship for c.~We'll use the empirical estimate from the
+data in the paper. Where the c parameter for area a was equal to:
+
+c\_a = c\_400*(a/400)\^{}0.28.
+
+So we can compare the species in, say 20 20 x 20 m quadrats with those
+in 1 x 8000 m2 (i.e., same total area) as follows
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{c.sl }\OtherTok{=} \FloatTok{1.06}\SpecialCharTok{*}\NormalTok{(}\DecValTok{8000}\SpecialCharTok{/}\DecValTok{400}\NormalTok{)}\SpecialCharTok{\^{}}\FloatTok{0.28}  \CommentTok{\# single large = 1 x 8000 m2}
+\NormalTok{c.ss }\OtherTok{=} \FloatTok{1.06}\SpecialCharTok{*}\NormalTok{(}\DecValTok{800}\SpecialCharTok{/}\DecValTok{400}\NormalTok{)}\SpecialCharTok{\^{}}\FloatTok{0.28}  \CommentTok{\# several small = 10 x 800 m2}
+
+\NormalTok{sr.sl }\OtherTok{\textless{}{-}} \FunctionTok{predSS.NB}\NormalTok{(}\AttributeTok{area=}\DecValTok{8000}\NormalTok{, }\AttributeTok{sad=}\NormalTok{bciSAD, }\AttributeTok{cpar =}\NormalTok{ c.sl, }\AttributeTok{m=}\DecValTok{1}\NormalTok{)}
+\NormalTok{sr.ss }\OtherTok{\textless{}{-}} \FunctionTok{gam.fn}\NormalTok{(}\FunctionTok{predSS.NB}\NormalTok{(}\AttributeTok{area=}\DecValTok{800}\NormalTok{, }\AttributeTok{sad=}\NormalTok{bciSAD, }\AttributeTok{cpar =}\NormalTok{ c.ss, }\AttributeTok{m=}\DecValTok{10}\NormalTok{))}
+\NormalTok{sr.ss; sr.sl}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 168.3132
+\end{verbatim}
+
+\begin{verbatim}
+## [1] 157.9507
+\end{verbatim}
+
+So \textasciitilde6\% increase in richness is expected if the single
+patch was subdivided into 10 independent patches.
+
+\hypertarget{comparing-observed-and-predicted}{%
+\section{Comparing observed and
+predicted}\label{comparing-observed-and-predicted}}
+
+\hypertarget{negative-binomial}{%
+\subsection{1. negative binomial}\label{negative-binomial}}
+
+For comparison with empirical data I'll again use BCI data. The object
+`calstats' contains values calculated from 100 repeat samples of 20
+randomly positioned 20 x 20 m quadrats.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{load}\NormalTok{(}\StringTok{"calstats.RData"}\NormalTok{)}
+\FunctionTok{names}\NormalTok{(calstats)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "zeta"  "spe"   "beta"  "gamma"
+\end{verbatim}
+
+We have four objects, each giving the mean value from the 100 samples
+from BCI along with 95\% sampling intervals:
+
+--`zeta' is zeta diversity (average number of species shared) in 1, 2,
+\ldots{} , 20 samples.\\
+--`spe' is the mean number of species found in only 1 quadrat (single
+patch endemics)\\
+--`beta' is the mean Sorensen dissimilarity\\
+--`gamma' is the total species richness
+
+We can predict zeta using the non-random shared species equation and
+then use this to predict the diversity patterns from the zeta components
+(this is all derived in Hui \& McGeoch 2014).
+
+First, we need to estimate the community scaling parameter for the 20 x
+20 sampling grain.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{alpha.div }\OtherTok{=}\NormalTok{ calstats}\SpecialCharTok{$}\NormalTok{zeta[}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{];alpha.div }\CommentTok{\# mean number of spp shared in 1 sample = alpha diversity}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 49.0575
+\end{verbatim}
+
+Once we have this, we can use function fit.c.NB() to estimate the
+parameter. (NB: If you want to get a scaling relationship for c, repeat
+the sampling and fitting steps at a few sampling grains, then fit Eq 8
+in the main text).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{cpar.fit }\OtherTok{\textless{}{-}} \FunctionTok{fitc.NB}\NormalTok{(}\AttributeTok{obs =}\NormalTok{ alpha.div, }\AttributeTok{area =} \DecValTok{400}\NormalTok{, }\AttributeTok{sad =}\NormalTok{ bciSAD, }\AttributeTok{tota=} \DecValTok{500000}\NormalTok{, }\AttributeTok{low=}\DecValTok{0}\NormalTok{, }\AttributeTok{upp=}\DecValTok{100}\NormalTok{)}
+\NormalTok{cpar.fit}\SpecialCharTok{$}\NormalTok{cpar}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 1.038374
+\end{verbatim}
+
+This is the value for the community scaling parameter, c, at this
+sampling grain. Now we just plug it into fitSS.NB() to estimate zeta
+diversity in the 20 samples\ldots{}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{zeta.est }\OtherTok{\textless{}{-}} \FunctionTok{predSS.NB}\NormalTok{(}\AttributeTok{area =} \DecValTok{400}\NormalTok{, }\AttributeTok{sad =}\NormalTok{ bciSAD, }\AttributeTok{cpar =}\NormalTok{ cpar.fit}\SpecialCharTok{$}\NormalTok{cpar, }\AttributeTok{m =} \DecValTok{20}\NormalTok{, }\AttributeTok{tota =} \DecValTok{500000}\NormalTok{)}
+\NormalTok{zeta.est}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##  [1] 49.057500 25.730625 18.149225 14.482429 12.358583 10.989532 10.039852
+##  [8]  9.344055  8.811930  8.390611  8.047357  7.760973  7.517223  7.306243
+## [15]  7.121013  6.956415  6.808641  6.674802  6.552672  6.440503
+\end{verbatim}
+
+\ldots{} and compare with the empirical data.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{20}\NormalTok{, calstats}\SpecialCharTok{$}\NormalTok{zeta[,}\DecValTok{1}\NormalTok{], }\AttributeTok{type=}\StringTok{"l"}\NormalTok{,}\AttributeTok{ylim=}\FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{60}\NormalTok{),}\AttributeTok{ylab=} \StringTok{\textquotesingle{}Zeta diversity\textquotesingle{}}\NormalTok{, }\AttributeTok{xlab=}\StringTok{"Order of zeta"}\NormalTok{)}
+\FunctionTok{lines}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{20}\NormalTok{, calstats}\SpecialCharTok{$}\NormalTok{zeta[,}\DecValTok{2}\NormalTok{], }\AttributeTok{lty=} \DecValTok{2}\NormalTok{)}
+\FunctionTok{lines}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{20}\NormalTok{, calstats}\SpecialCharTok{$}\NormalTok{zeta[,}\DecValTok{3}\NormalTok{], }\AttributeTok{lty=} \DecValTok{2}\NormalTok{)}
+\FunctionTok{points}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{20}\NormalTok{, zeta.est)}
+\FunctionTok{legend}\NormalTok{(}\DecValTok{15}\NormalTok{,}\DecValTok{50}\NormalTok{,}\AttributeTok{legend=}\FunctionTok{c}\NormalTok{(}\StringTok{"Predicted"}\NormalTok{,}\StringTok{"Observed"}\NormalTok{),}\AttributeTok{pch=}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\ConstantTok{NA}\NormalTok{),}\AttributeTok{lty=}\FunctionTok{c}\NormalTok{(}\ConstantTok{NA}\NormalTok{,}\DecValTok{1}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Worked-examples_files/figure-latex/unnamed-chunk-11-1.pdf}
+
+Not perfect, but it's an approximate model. Let's see how it does for
+the diversity metrics.
+
+First total species richness of the samples:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{gam.fn}\NormalTok{(zeta.est)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 171.0906
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{unlist}\NormalTok{(calstats}\SpecialCharTok{$}\NormalTok{gamma)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   mean   hi95  low95 
+## 175.62 188.00 163.00
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{(}\FloatTok{171.0905{-}175.62}\NormalTok{)}\SpecialCharTok{/}\FloatTok{175.62}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] -0.02579148
+\end{verbatim}
+
+Number of species found in a single patch:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{spe.fn}\NormalTok{(zeta.est)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 46.0355
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{unlist}\NormalTok{(calstats}\SpecialCharTok{$}\NormalTok{spe)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##  mean  hi95 low95 
+## 43.96 56.00 35.00
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{(}\FloatTok{46.0355{-}43.96}\NormalTok{)}\SpecialCharTok{/}\FloatTok{43.96}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.04721338
+\end{verbatim}
+
+And Sorensen dissimilarity:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{bd.fn}\NormalTok{(zeta.est)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.4755007
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{unlist}\NormalTok{(calstats}\SpecialCharTok{$}\NormalTok{beta)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##      mean      hi95     low95 
+## 0.4936184 0.6155491 0.3616667
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{(}\FloatTok{0.4755007{-}0.4936184}\NormalTok{)}\SpecialCharTok{/}\FloatTok{0.4936184} 
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] -0.03670386
+\end{verbatim}
+
+One of the things about the null models when compared with real data is
+that the diversity measures calculated from zeta components tend to be
+much closer to the empirical values, here all less than 5\% from the
+empirical estimate. This seems to remain true, even when the zeta
+components themselves fell outside the 95\% empirical sampling limits
+(the regularly distributed community in the SI is a good example).
+
+\hypertarget{finite-negative-binomial}{%
+\subsection{2. Finite negative
+binomial}\label{finite-negative-binomial}}
+
+For completeness, here's the fitting for the FNB model. It takes a long
+time and does not seem to provide an improvement that warrants this in
+my view.
+
+I'm pretty agricultural in my R skills, so I'm sure others will be able
+to work out a means to speed this up\ldots{}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# fit c as with the neg bin}
+\NormalTok{fnb.c }\OtherTok{\textless{}{-}} \FunctionTok{fitc.FNB}\NormalTok{(}\AttributeTok{obs =}\NormalTok{ alpha.div, }\AttributeTok{area =}\DecValTok{400}\NormalTok{, }\AttributeTok{sad =}\NormalTok{ bciSAD, }\AttributeTok{tota=} \DecValTok{500000}\NormalTok{, }\AttributeTok{low=}\DecValTok{0}\NormalTok{, }\AttributeTok{upp=}\DecValTok{10}\NormalTok{)}\SpecialCharTok{$}\NormalTok{cpar}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Loading required package: Rmpfr
+\end{verbatim}
+
+\begin{verbatim}
+## Loading required package: gmp
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## Attaching package: 'gmp'
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:base':
+## 
+##     %*%, apply, crossprod, matrix, tcrossprod
+\end{verbatim}
+
+\begin{verbatim}
+## C code of R package 'Rmpfr': GMP using 64 bits per limb
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## Attaching package: 'Rmpfr'
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:gmp':
+## 
+##     outer
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:stats':
+## 
+##     dbinom, dgamma, dnbinom, dnorm, dpois, dt, pnorm
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:base':
+## 
+##     cbind, pmax, pmin, rbind
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{fnb.c}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 1.021112
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# and predict}
+\NormalTok{zeta.est.fnb }\OtherTok{\textless{}{-}} \FunctionTok{predSS.FNB}\NormalTok{(}\AttributeTok{sad =}\NormalTok{ bciSAD, }\AttributeTok{cpar =}\NormalTok{ fnb.c, }\AttributeTok{area =} \DecValTok{400}\NormalTok{, }\AttributeTok{tota =} \DecValTok{500000}\NormalTok{, }\AttributeTok{m =} \DecValTok{20}\NormalTok{)}
+\NormalTok{zeta.est.fnb}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##  [1] 49.057500 25.814989 18.225898 14.549437 12.417853 11.042869 10.088647
+##  [8]  9.389351  8.854502  8.431042  8.086087  7.798335  7.553472  7.341577
+## [15]  7.155583  6.990340  6.842013  6.707694  6.585139  6.472591
+\end{verbatim}
+
+How do the FNB and NB shared species estimates compare?
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{20}\NormalTok{, calstats}\SpecialCharTok{$}\NormalTok{zeta[,}\DecValTok{1}\NormalTok{], }\AttributeTok{type=}\StringTok{"l"}\NormalTok{,}\AttributeTok{ylim=}\FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{60}\NormalTok{),}\AttributeTok{ylab=} \StringTok{\textquotesingle{}Zeta diversity\textquotesingle{}}\NormalTok{, }\AttributeTok{xlab=}\StringTok{"Order of zeta"}\NormalTok{)}
+\FunctionTok{lines}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{20}\NormalTok{, calstats}\SpecialCharTok{$}\NormalTok{zeta[,}\DecValTok{2}\NormalTok{], }\AttributeTok{lty=} \DecValTok{2}\NormalTok{)}
+\FunctionTok{lines}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{20}\NormalTok{, calstats}\SpecialCharTok{$}\NormalTok{zeta[,}\DecValTok{3}\NormalTok{], }\AttributeTok{lty=} \DecValTok{2}\NormalTok{)}
+\FunctionTok{points}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{20}\NormalTok{, zeta.est)}
+\FunctionTok{points}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{20}\NormalTok{, zeta.est.fnb, }\AttributeTok{col=}\DecValTok{2}\NormalTok{, }\AttributeTok{pch=}\DecValTok{2}\NormalTok{)}
+\FunctionTok{legend}\NormalTok{(}\DecValTok{12}\NormalTok{,}\DecValTok{50}\NormalTok{,}\AttributeTok{legend=}\FunctionTok{c}\NormalTok{(}\StringTok{"Predicted NB"}\NormalTok{,}\StringTok{"Predicted FNB"}\NormalTok{, }\StringTok{"Observed"}\NormalTok{),}\AttributeTok{pch=}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{, }\ConstantTok{NA}\NormalTok{),}\AttributeTok{lty=}\FunctionTok{c}\NormalTok{(}\ConstantTok{NA}\NormalTok{,}\ConstantTok{NA}\NormalTok{, }\DecValTok{1}\NormalTok{), }\AttributeTok{col=}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{,}\DecValTok{1}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Worked-examples_files/figure-latex/unnamed-chunk-16-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(zeta.est, zeta.est.fnb);}\FunctionTok{abline}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Worked-examples_files/figure-latex/unnamed-chunk-17-1.pdf}
+
+\hypertarget{calculate-the-scaling-relationship}{%
+\subsubsection{Calculate the scaling
+relationship}\label{calculate-the-scaling-relationship}}
+
+To fit a scaling relationship to a stem-mapped plot (or similar), just
+need the SAD for the plot and a bunch of species richness estimates at
+different grain sizes. There are data from BCI with this information in
+the object `validationSamples\_FNB.RData'.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{source}\NormalTok{(}\StringTok{"functions.R"}\NormalTok{)}
+\FunctionTok{load}\NormalTok{(}\StringTok{"BCI\_SAD.RData"}\NormalTok{)}
+\FunctionTok{load}\NormalTok{(}\StringTok{"validationSamples\_FNB.RData"}\NormalTok{)}
+\FunctionTok{names}\NormalTok{(val.sampsFNB[[}\DecValTok{1}\NormalTok{]])}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##  [1] "qarea"  "srmod"  "srobs"  "gammod" "gamobs" "spemod" "speobs" "endmod"
+##  [9] "endobs" "cest"   "cfit"
+\end{verbatim}
+
+We'll need quadrat areas (qarea) observed mean richness for that grain
+(srobs). Plus, we can compare the fitted c parameter with the original
+estimate (cest) using the finite N (it will be close, but it won't be
+the same). The same code could be run with the FNB model but it will
+take a while to run\ldots{}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{x}\OtherTok{\textless{}{-}}\NormalTok{ val.sampsFNB[[}\DecValTok{1}\NormalTok{]] }\CommentTok{\# bci samples}
+\NormalTok{cp }\OtherTok{\textless{}{-}} \FunctionTok{numeric}\NormalTok{()}
+\ControlFlowTok{for}\NormalTok{(i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\FunctionTok{nrow}\NormalTok{(x))\{}
+\NormalTok{  area }\OtherTok{=}\NormalTok{ x}\SpecialCharTok{$}\NormalTok{qarea[i] }\CommentTok{\# quadrat area (grain size)}
+\NormalTok{  obs }\OtherTok{=}\NormalTok{ x}\SpecialCharTok{$}\NormalTok{srobs[i] }\CommentTok{\# mean richness at this grain}
+\NormalTok{  cp[i] }\OtherTok{\textless{}{-}} \FunctionTok{fitc.NB}\NormalTok{(}\AttributeTok{obs =}\NormalTok{ obs, }\AttributeTok{area =}\NormalTok{ area, }\AttributeTok{sad =}\NormalTok{ bciSAD, }\AttributeTok{tota =} \FloatTok{5e+05}\NormalTok{, }\AttributeTok{low =} \DecValTok{0}\NormalTok{, }\AttributeTok{upp =} \DecValTok{100}\NormalTok{)}\SpecialCharTok{$}\NormalTok{cpar}
+  \FunctionTok{print}\NormalTok{(}\FunctionTok{c}\NormalTok{(cp[i], x}\SpecialCharTok{$}\NormalTok{cest[i])) }\CommentTok{\# compare with original model}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.2908141 0.2859559
+## [1] 0.5825164 0.5740980
+## [1] 0.7998832 0.7875621
+## [1] 1.018414 1.001288
+## [1] 1.205550 1.182773
+## [1] 1.378862 1.349404
+## [1] 1.510469 1.473620
+## [1] 1.652632 1.607238
+## [1] 1.769279 1.714719
+## [1] 1.864122 1.799919
+\end{verbatim}
+
+Now we have the list of areas and the value of the scaling parameter. We
+just need to fit a power function.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{avec }\OtherTok{\textless{}{-}}\NormalTok{ x}\SpecialCharTok{$}\NormalTok{qarea}\SpecialCharTok{/}\NormalTok{x}\SpecialCharTok{$}\NormalTok{qarea[}\DecValTok{4}\NormalTok{] }\CommentTok{\# use 400 m as base level and convert grain to relative grain}
+\NormalTok{k0 }\OtherTok{\textless{}{-}}\NormalTok{ cp[}\DecValTok{4}\NormalTok{] }\CommentTok{\# fitted scaling parameter}
+\NormalTok{y }\OtherTok{\textless{}{-}}\NormalTok{ cp }
+\NormalTok{nly }\OtherTok{\textless{}{-}} \FunctionTok{nls}\NormalTok{(y }\SpecialCharTok{\textasciitilde{}}\NormalTok{ k0}\SpecialCharTok{*}\NormalTok{avec}\SpecialCharTok{\^{}}\NormalTok{z, }\AttributeTok{start=}\FunctionTok{list}\NormalTok{(}\AttributeTok{z=}\FloatTok{0.2}\NormalTok{))}
+\NormalTok{pry }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(nly)}
+\FunctionTok{with}\NormalTok{(x, }\FunctionTok{plot}\NormalTok{(qarea, cp))}
+\FunctionTok{lines}\NormalTok{(x}\SpecialCharTok{$}\NormalTok{qarea, pry)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Worked-examples_files/figure-latex/unnamed-chunk-20-1.pdf}
+Once we have this relationship, we can explore subdivision of area by
+adjusting c to the correct grain (as was done in Fig. 5 - see
+scr\_simsSubDiv.R for that code).
+
+\hypertarget{reference}{%
+\subsection{Reference}\label{reference}}
+
+Hui, C. and McGeoch, M. (2014) Zeta diversity as a concept and metric
+that unifies incidence-based biodiversity patterns American Naturalist
+2014 Vol. 184 Issue 5 Pages 684-694
+
+\end{document}
